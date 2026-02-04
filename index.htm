@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./output.css" rel="stylesheet">
+</head>
+<script defer src="../js/cdn.min.js"></script>
+<body class="flex flex-col h-screen">
+        <header class="flex justify-between bg-gray-200 text-gray-400 py-2 px-8">
+            <a href="" class="hover:text-gray-900">Home</a>
+            <nav class="flex gap-x-4 ">
+                <a href="" class="hover:text-gray-900">Categories</a>
+                <a href="" class="hover:text-gray-900">Posts</a>
+            </nav>
+            <ul class="flex gap-x-2">
+                <li>
+                    <a href="" class="hover:text-gray-900">Sign In</a>
+                    
+                </li>
+                <li>
+                    <a href="" class="hover:text-gray-900">Sign Up</a>
+                </li>
+                <li>
+                    <a href="" class="hover:text-gray-900">Exit</a>
+                </li>
+            </ul>
+        </header>
+        <main class="flex-grow px-6">
+            <section class="container">
+                <h1 class="font-bold text-3xl">Categories</h1>
+           <div x-data="{categories: [],
+                        message: '',
+                        }" x-init="fetch('http://ucebpid-m1.prof.ru/api/categories')
+                .then(response => response.json())
+                .then(data => categories = data)
+                console.log(categories)">
+
+                <ul>
+                <template x-for="(category,index) in categories">
+                    <li 
+                    x-data="{is_vis1ble: false}"
+                     class="grid grid-cols-[40px_1fr_auto_auto] gap-x-2 cursor-pointer hover:bg-gray-200 odd:bg-white even:bg-gray-50">
+                        <span x-text="index + 1"></span>
+                        <span x-text="category.name"></span>
+                        <div>
+                            <button @click="is_visible = !is_visible" class="text-sm border rounded px-2 bg-green-400 text-white">Show</button>
+                            <ul x-show="is_visible">
+                                <li>
+                                    <span>Created_at:</span>
+                                    <span x-text="category.created_at"></span>
+                                </li>
+                                <li>
+                                    <span>Created_at:</span>
+                                    <span x-text="category.created_at"></span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button 
+                        @click="fetch('http://ucebpid-m1.prof.ru/api/categories/'+category.id,{
+                        method: 'DELETE',
+                        headers: {'Accept': 'application/json'}
+                        })
+                .then(response => response.json())
+                .then(data => message = data)
+                console.log(message);"
+                        class="text-sm border rounded px-2 bg-red-500 text-white" >Delete</button>
+                    </li>
+                </template>
+                </ul>
+           </div>
+        </section>
+        </main>
+        <footer>footer</footer>
+</body>
+
+</html>
